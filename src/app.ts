@@ -1,7 +1,9 @@
 import express, { Application } from "express";
 import cors from "cors";
-import { userRoutes } from "./app/modules/users/user.routes";
-import { adminRoutes } from "./app/modules/admis/admin.routes";
+
+import router from "./app/routes";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import notFoundApi from "./app/middlewares/notFound";
 
 const app: Application = express();
 
@@ -13,11 +15,13 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/admins", adminRoutes);
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.use("/api/v1", router);
+
+app.use(globalErrorHandler);
+app.use(notFoundApi);
 
 export default app;
