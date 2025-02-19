@@ -9,7 +9,6 @@ const validateRequest =
         body: req.body,
       });
 
-      console.log("console success");
 
       return next();
     } catch (err) {
